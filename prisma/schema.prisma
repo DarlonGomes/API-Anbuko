@@ -23,3 +23,25 @@ model User {
 
   @@map("users")
 }
+
+model Form {
+  id          String        @id @default(cuid())
+  title       String
+  image       String
+  description String
+  created_at  DateTime      @default(now())
+  FormOptions FormOptions[]
+
+  @@map("forms")
+}
+
+model FormOptions {
+  id         String   @id @default(cuid())
+  title      String
+  image      String
+  form       Form     @relation(fields: [formId], references: [id])
+  formId     String
+  created_at DateTime @default(now())
+
+  @@map("form_options")
+}
