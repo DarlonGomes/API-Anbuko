@@ -4,10 +4,15 @@
   "description": "",
   "main": "./src/server.ts",
   "scripts": {
-    "test": "NODE_ENV=test jest -i",
+    "test": "npm run test:load-envs jest -i",
+    "test:load-envs": "dotenv -e .env.test",
+    "test:migrate":"npm run test:load-envs prisma generate && npm run dev:load-envs prisma generate dev",
     "build": "tsc && npx prisma generate && npx prisma migrate deploy",
     "start": "npx prisma generate && npx prisma migrate deploy && node ./dist/src/server.js",
-    "dev": "NODE_ENV=dev nodemon ./src/server.ts"
+    "dev": "npm run dev:load-envs nodemon ./src/server.ts",
+    "dev:load-envs": "dotenv -e .env.development",
+    "dev:migrate": "npm run dev:load-envs prisma generate && npm run dev:load-envs prisma migrate dev"
+
   },
   "repository": {
     "type": "git",
